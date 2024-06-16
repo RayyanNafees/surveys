@@ -40,7 +40,7 @@ export function Create() {
 					name="avatar"
 					placeholder="avatar"
 				/> */}
-				<input name="title" placeholder="Survey Name" />
+				<input name="title" placeholder="Survey Title" />
 
 				<input name="description" placeholder="Survey Description" />
 				<ol>

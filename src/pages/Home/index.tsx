@@ -61,11 +61,9 @@ const surveys: Survey[] = [
 	},
 ];
 
-const perRow = 3;
 
 const newSurveys: Survey[][] = divideArray3(surveys);
 
-console.log(newSurveys);
 
 export function Home() {
 	const [search, setSearch] = useState<string[]>([]);
