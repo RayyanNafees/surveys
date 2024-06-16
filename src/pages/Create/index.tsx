@@ -3,8 +3,11 @@ import { range } from "../../utils/array";
 import { createSurvey } from "@/lib/createSurvey";
 import { serializes } from "@/utils/serialiseSurvey";
 
+
 export function Create() {
 	const [ques, setQues] = useState(0);
+
+	const [loading, setLoading] = useState(false);
 	return (
 		<main>
 			<hgroup>
@@ -13,14 +16,18 @@ export function Create() {
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
+
+					setLoading(true)
+
 					const form = new FormData(e.currentTarget);
 					console.log('form data', Object.fromEntries(form.entries()))
 
 					const surveyData = serializes(form);
 					console.log('parsed Data' ,surveyData)
 
-					await createSurvey(surveyData);
+					await createSurvey(surveyData).catch(e=> setLoading(false));
 
+					setLoading(false)
 					alert("Survey created successfully");
 					window.location.href = "/";
 				}}
@@ -50,7 +57,7 @@ export function Create() {
 				>
 					Add Question
 				</button>
-				<button type="submit" class="primary">
+				<button type="submit" class="primary" aria-busy={loading}>
 					Submit Survey
 				</button>
 			</form>
