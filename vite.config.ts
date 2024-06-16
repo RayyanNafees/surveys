@@ -1,14 +1,16 @@
-import { defineConfig } from 'vite';
-import preact from '@preact/preset-vite';
-import UnoCSS from 'unocss/vite'
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+import UnoCSS from "unocss/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
+		tsconfigPaths(),
 		preact({
 			prerender: {
 				enabled: true,
-				renderTarget: '#app',
-				additionalPrerenderRoutes: ['/404'],
+				renderTarget: "#app",
+				additionalPrerenderRoutes: ["/404"],
 			},
 		}),
 		UnoCSS(),

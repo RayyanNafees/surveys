@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { range } from "../../utils/array";
+import { createSurvey } from "@/lib/createSurvey";
+import { serializes } from "@/utils/serialiseSurvey";
 
 export function Create() {
 	const [ques, setQues] = useState(0);
@@ -8,18 +10,32 @@ export function Create() {
 			<hgroup>
 				<h2>Create your Survey</h2>
 			</hgroup>
-			<form>
-				<label>Survey Logo</label>
+			<form
+				onSubmit={async (e) => {
+					e.preventDefault();
+					const form = new FormData(e.currentTarget);
+					console.log('form data', Object.fromEntries(form.entries()))
+
+					const surveyData = serializes(form);
+					console.log('parsed Data' ,surveyData)
+
+					await createSurvey(surveyData);
+
+					alert("Survey created successfully");
+					window.location.href = "/";
+				}}
+			>
+
+				{/* <label>Survey Logo</label>
 				<input
 					type="file"
 					accept={"image/*"}
 					name="avatar"
 					placeholder="avatar"
-
-				/>
+				/> */}
 				<input name="title" placeholder="Survey Name" />
 
-				<input name="descritpion" placeholder="Survey Description" />
+				<input name="description" placeholder="Survey Description" />
 				<ol>
 					{range(ques).map((qIndex) => (
 						<li key={`question${qIndex}`}>
@@ -71,7 +87,7 @@ const Question: React.FC<{ qIndex: number }> = ({ qIndex }) => {
 
 const Option = ({ qIndex, oIndex }) => (
 	<input
-		name={`Q-${qIndex}:option-${oIndex}`}
+		name={`Q-${qIndex}:O-${oIndex}`}
 		placeholder={`Option ${oIndex + 1}`}
 	/>
 );

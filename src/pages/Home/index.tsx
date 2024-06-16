@@ -1,37 +1,6 @@
 import { useState } from "preact/hooks";
 import "./style.css";
 import { divideArray3 } from "../../utils/array";
-/*
-<script>
-      // window.onload = function () {
-      //   window.onbeforeunload = function () {
-      //     console.log("Before unload");
-      //     alert("Are you sure you want to leave?");
-      //   };
-      // };
-      const search = document.querySelector("input[type='search']");
-
-      const headers = document.querySelectorAll("article header");
-
-      search.oninput = (e) => {
-        const searchedSurvey = e.target.value;
-        if (searchedSurvey === "")
-          return headers.forEach((header) =>
-            header.parentElement.classList.remove("invisible")
-          );
-
-        const fileredSurveys = headers.forEach((header) => {
-          // console.log(header)
-          const isInSearch = header.innerHTML
-            .toLowerCase()
-            .includes(searchedSurvey.toLowerCase());
-          if (!isInSearch) {
-            header.parentElement.classList.add("invisible");
-          }
-        });
-      };
-    </script>
-*/
 
 type Survey = {
 	id: string;

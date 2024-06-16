@@ -6,9 +6,9 @@ export function Header() {
 
 	return (
 		<nav>
-			<ul>
+			<ul class='flex-end'>
 				<li>
-					<img src={logo} alt="Your Logo"  width="120"/>
+					<img src={logo} alt="Your Logo"  width="80"/>
 				</li>
 				<li>
 					<h1>Survey Surfer</h1>

@@ -10,8 +10,8 @@ import { Header } from "./components/Header.jsx";
 import { Home } from "./pages/Home/index.jsx";
 import { Create } from "./pages/Create/index.jsx";
 import { NotFound } from "./pages/_404.jsx";
-import 'virtual:uno.css'
 import '@picocss/pico'
+import 'virtual:uno.css'
 
 // App.tsx
 
