@@ -36,10 +36,15 @@ const QuestionsForm = ({ surveyId }) => {
 	return (
 		<form>
 			{error && <p>{error.message}</p>}
-			{!isLoading &&
-				data.items.map((q) => (
-					<Options quesId={q.id} quesText={q.text} key={q.id} />
-				))}
+			{!isLoading && (
+				<ol>
+					{data.items.map((q) => (
+						<li key={q.id}>
+							<Options quesId={q.id} quesText={q.text} />
+						</li>
+					))}
+				</ol>
+			)}
 			<input type="submit" value="Submit Answers" />
 		</form>
 	);
@@ -58,7 +63,7 @@ const Options = ({ quesId, quesText }) => {
 			{!(error || isLoading) &&
 				data.items.map((o) => (
 					<p key={o.id}>
-						<input type="radio" name={`o-${quesId}`} />
+						<input type="radio" name={`o-${quesId}`} required />
 						{o.text}
 					</p>
 				))}

@@ -70,7 +70,7 @@ const Question: React.FC<{ qIndex: number }> = ({ qIndex }) => {
 	return (
 		<article>
 			<header>
-				<input placeholder={`Question ${qIndex + 1}`} name={`Q-${qIndex}`} />
+				<input placeholder={`Question ${qIndex + 1}`} name={`Q-${qIndex}`} required/>
 			</header>
 			<ol>
 				{range(options).map((oIndex) => (
@@ -96,5 +96,6 @@ const Option = ({ qIndex, oIndex }) => (
 	<input
 		name={`Q-${qIndex}:O-${oIndex}`}
 		placeholder={`Option ${oIndex + 1}`}
+		required
 	/>
 );
