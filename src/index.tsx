@@ -8,7 +8,10 @@ import {
 
 import { Header } from "./components/Header.jsx";
 import { Home } from "./pages/Home/index.jsx";
+import { Create } from "./pages/Create/index.jsx";
 import { NotFound } from "./pages/_404.jsx";
+import 'virtual:uno.css'
+
 // import "./style.css";
 
 import '@picocss/pico'
@@ -20,6 +23,7 @@ export function App() {
 				<Header />
 				<Router>
 					<Route path="/" component={Home} />
+					<Route path="/create" component={Create} />
 					<Route default component={NotFound} />
 				</Router>
 			</main>

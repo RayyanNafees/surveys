@@ -24,8 +24,8 @@ export function Header() {
 					<a href="/contact">Contact Us</a>
 				</li>
 				<li>
-					<a class="btn btn-primary" href="/login" role="button">
-						Log In
+					<a class="btn btn-primary" href="/create" role="button">
+						Create Survey
 					</a>
 				</li>
 			</ul>
