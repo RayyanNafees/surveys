@@ -121,21 +121,28 @@ export function Home() {
 				{newSurveys.map((surveyArr) => (
 					<div key={crypto.randomUUID()} class="grid">
 						{surveyArr.map((surveyItem) => (
-							<div key={surveyItem?.id}>
-								<article
-									hidden={search.length && !search.includes(surveyItem?.id)}
-								>
-									<header>{surveyItem.title}</header>
-									<ul>
-										<li>{surveyItem.description}</li>
-									</ul>
-									<footer>
-										<a role="button" href="apple.html">
-											Take Survey
-										</a>
-									</footer>
-								</article>
-							</div>
+							<>
+								<div key={surveyItem?.id}>
+									<article
+										hidden={search.length && !search.includes(surveyItem?.id)}
+									>
+										<header>{surveyItem.title}</header>
+										<ul>
+											<li>{surveyItem.description}</li>
+										</ul>
+										<footer>
+											<a role="button" href="apple.html">
+												Take Survey
+											</a>
+										</footer>
+									</article>
+								</div>
+								{/* adds extra empty divs to fill in the space */}
+								{surveyArr.length < 3 &&
+									Array.from({ length: 3 - surveyArr.length }).map(() => (
+										<div key={crypto.randomUUID()} />
+									))}
+							</>
 						))}
 					</div>
 				))}
