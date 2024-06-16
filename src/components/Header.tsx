@@ -1,13 +1,14 @@
 import { useLocation } from "preact-iso";
+import logo from "../assets/logo.png";
 
 export function Header() {
-	const { url } = useLocation();
+	// const { url } = useLocation();
 
 	return (
 		<nav>
 			<ul>
 				<li>
-					<img src="./assets/LOGO.png" alt="Your Logo" />
+					<img src={logo} alt="Your Logo"  width="120"/>
 				</li>
 				<li>
 					<h1>Survey Surfer</h1>

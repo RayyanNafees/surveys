@@ -5,9 +5,18 @@ export function Create() {
 	const [ques, setQues] = useState(0);
 	return (
 		<main>
+			<hgroup>
+				<h2>Create your Survey</h2>
+			</hgroup>
 			<form>
-				<label>Create your survet</label>
+				<label>Survey Logo</label>
+				<input
+					type="file"
+					accept={"image/*"}
+					name="avatar"
+					placeholder="avatar"
 
+				/>
 				<input name="title" placeholder="Survey Name" />
 
 				<input name="descritpion" placeholder="Survey Description" />
@@ -24,6 +33,9 @@ export function Create() {
 					onClick={() => setQues(ques + 1)}
 				>
 					Add Question
+				</button>
+				<button type="submit" class="primary">
+					Submit Survey
 				</button>
 			</form>
 		</main>

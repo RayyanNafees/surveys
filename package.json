@@ -9,6 +9,7 @@
   "dependencies": {
     "@iconify-json/mdi": "^1.1.66",
     "@picocss/pico": "^2.0.6",
+    "pocketbase": "^0.21.3",
     "preact": "^10.20.0",
     "preact-iso": "^2.6.3",
     "preact-render-to-string": "^6.5.5"
