@@ -1,4 +1,4 @@
-import { useMemo, useState } from "preact/hooks";
+import { useCallback, useMemo, useState } from "preact/hooks";
 import { divideArray3 } from "../../utils/array";
 
 import { string, array, object, parse, type InferOutput } from "valibot";
@@ -18,14 +18,24 @@ type RemoteSurveyType = InferOutput<typeof remoteSurveySchema>;
 const remoteSurveys = (await pb.collection("surveys").getList(1, 30)).items;
 
 const safeSurvey = parse(remoteSurveySchema, remoteSurveys);
-const newSurvey: RemoteSurveyType[] = divideArray3(safeSurvey);
+const safeSurveyIds = safeSurvey.map((survey) => survey.id);
 
 export function Home() {
-	const [search, setSearch] = useState<string[]>([]);
-	const filteredSurvey = useMemo(() => {
-		if (!search.length) return safeSurvey;
-		return safeSurvey.filter((survey) => search.includes(survey.id));
-	}, [search]);
+	const [search, setSearch] = useState<string[]>(safeSurveyIds);
+
+	const filteredSurvey = useMemo(
+		() => safeSurvey.filter((survey) => search.includes(survey.id)),
+		[search],
+	);
+
+	const onSearch = useCallback((e) => {
+		const searched = e.currentTarget.value.toLocaleLowerCase();
+		if (!searched) return setSearch(safeSurveyIds);
+		const inSearch = safeSurvey.filter((survey) =>
+			survey.title.toLowerCase().includes(searched),
+		);
+		setSearch(inSearch.map((survey) => survey.id));
+	}, []);
 
 	const newSurvey: RemoteSurveyType[] = divideArray3(filteredSurvey);
 
@@ -36,14 +46,7 @@ export function Home() {
 				id="search"
 				data-search
 				placeholder="Search or survey topics"
-				onInput={(e) => {
-					const searched = e.currentTarget.value.toLocaleLowerCase();
-					if (!searched) return setSearch([]);
-					const inSearch = safeSurvey.filter((survey) =>
-						survey.title.toLowerCase().includes(searched),
-					);
-					setSearch(inSearch.map((survey) => survey.id));
-				}}
+				onInput={onSearch}
 			/>
 
 			<div>
@@ -61,15 +64,15 @@ export function Home() {
 												<li>{surveyItem.description}</li>
 											</ul>
 											<footer>
-												<a role="button" href="apple.html">
+												<a role="button" href={`/take/${surveyItem.id}`}>
 													Take Survey
 												</a>
 											</footer>
 										</article>
 									</div>
-									{/* adds extra empty divs to fill in the space */}
+									{/* adds extra empty div to fill in the space */}
 									{
-										//newSurvey.length > 3 &&
+										newSurvey.length > 3 &&
 										surveyArr.length < 3 &&
 											Array.from({ length: 3 - surveyArr.length }).map(() => (
 												<div key={crypto.randomUUID()} />

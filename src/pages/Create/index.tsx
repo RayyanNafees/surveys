@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { range } from "../../utils/array";
 import { createSurvey } from "@/lib/createSurvey";
-import { serializes } from "@/utils/serialiseSurvey";
+import { serializes } from "@/utils/serializeSurvey";
 
 
 export function Create() {

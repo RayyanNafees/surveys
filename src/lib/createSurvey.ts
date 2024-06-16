@@ -1,5 +1,5 @@
 import pb from "./pb";
-import type { SurveyType } from "@/utils/serialiseSurvey";
+import type { SurveyType } from "@/utils/serializeSurvey";
 
 const surveys = pb.collection("surveys");
 const options = pb.collection("options");
