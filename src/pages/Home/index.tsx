@@ -1,72 +1,34 @@
-import { useState } from "preact/hooks";
-import "./style.css";
+import { useMemo, useState } from "preact/hooks";
 import { divideArray3 } from "../../utils/array";
 
-type Survey = {
-	id: string;
-	title: string;
-	description: string;
-};
+import { string, array, object, parse, type InferOutput } from "valibot";
 
-const surveys: Survey[] = [
-	{
-		id: crypto.randomUUID(),
-		title: "Apple iPhone",
-		description: "Best Apple iPhone?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Dell Laptops",
-		description: "Best Dell Laptops?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Cricketer",
-		description: "Best player?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Colgate",
-		description: "Best Type of Product?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Adidas",
-		description: "Best Type of Adidas' Product?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Disney Streaming Service",
-		description: "Best Disney streaming service?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Sony Headphones",
-		description: "Best Type of Sony Headphones?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Toyota",
-		description: "Best Toyota Car?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Gaming Console",
-		description: "Your favorite Gaming Console?",
-	},
-	{
-		id: crypto.randomUUID(),
-		title: "Porn Site",
-		description: "Your favorite Porn Sites?",
-	},
-];
+import pb from "@/lib/pb";
 
+const remoteSurveySchema = array(
+	object({
+		title: string(),
+		description: string(),
+		id: string(),
+	}),
+);
 
-const newSurveys: Survey[][] = divideArray3(surveys);
+type RemoteSurveyType = InferOutput<typeof remoteSurveySchema>;
 
+const remoteSurveys = (await pb.collection("surveys").getList(1, 30)).items;
+
+const safeSurvey = parse(remoteSurveySchema, remoteSurveys);
+const newSurvey: RemoteSurveyType[] = divideArray3(safeSurvey);
 
 export function Home() {
 	const [search, setSearch] = useState<string[]>([]);
+	const filteredSurvey = useMemo(() => {
+		if (!search.length) return safeSurvey;
+		return safeSurvey.filter((survey) => search.includes(survey.id));
+	}, [search]);
+
+	const newSurvey: RemoteSurveyType[] = divideArray3(filteredSurvey);
+
 	return (
 		<>
 			<input
@@ -77,7 +39,7 @@ export function Home() {
 				onInput={(e) => {
 					const searched = e.currentTarget.value.toLocaleLowerCase();
 					if (!searched) return setSearch([]);
-					const inSearch = surveys.filter((survey) =>
+					const inSearch = safeSurvey.filter((survey) =>
 						survey.title.toLowerCase().includes(searched),
 					);
 					setSearch(inSearch.map((survey) => survey.id));
@@ -85,27 +47,27 @@ export function Home() {
 			/>
 
 			<div>
-				{newSurveys.map((surveyArr) => (
+				{newSurvey.map((surveyArr) => (
 					<div key={crypto.randomUUID()} class="grid">
 						{surveyArr.map((surveyItem) => (
 							<>
 								<div key={surveyItem?.id}>
-									<article
-										hidden={search.length && !search.includes(surveyItem?.id)}
-									>
-										<header>{surveyItem.title}</header>
-										<ul>
-											<li>{surveyItem.description}</li>
-										</ul>
-										<footer>
-											<a role="button" href="apple.html">
-												Take Survey
-											</a>
-										</footer>
-									</article>
+										<article>
+											<header>{surveyItem.title}</header>
+											<ul>
+												<li>{surveyItem.description}</li>
+											</ul>
+											<footer>
+												<a role="button" href="apple.html">
+													Take Survey
+												</a>
+											</footer>
+										</article>
 								</div>
 								{/* adds extra empty divs to fill in the space */}
-								{surveyArr.length < 3 &&
+								{
+								//newSurvey.length > 3 &&
+									surveyArr.length < 3 &&
 									Array.from({ length: 3 - surveyArr.length }).map(() => (
 										<div key={crypto.randomUUID()} />
 									))}
