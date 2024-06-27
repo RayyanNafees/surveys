@@ -33,7 +33,7 @@ export function Home() {
 	);
 
 	const safeSurvey = useMemo(() => data || [], [data]);
-	
+
 	const safeSurveyIds = useMemo(
 		() => safeSurvey.map((survey) => survey.id),
 		[safeSurvey],
